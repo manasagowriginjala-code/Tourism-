@@ -1,0 +1,427 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Tourism</title>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<style>
+body{
+    font-family: 'Poppins', sans-serif;
+    margin:0;
+    background: linear-gradient(120deg, #F3F7FF, #ffffff);
+    scroll-behavior: smooth;
+}
+nav{
+    position:sticky;
+    top:0;
+    background:linear-gradient(90deg,#0B5ED7,#0DCAF0);
+    padding:12px 30px;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+   z-index:1000;
+}
+
+/* TITLE BUTTON */
+.nav-left button{
+    padding:8px 16px;
+    border:none;
+    border-radius:25px;
+    background:white;
+    color:#0B5ED7;
+    font-weight:bold;
+    font-size:16px;
+    cursor:pointer;
+    box-shadow: 0 0 10px rgba(11,94,215,0.3);
+    transition: all 0.3s;
+}
+.nav-left button:hover{
+    box-shadow: 0 0 18px rgba(255,193,7,0.8);
+    transform: scale(1.05);
+}
+
+/* NAV BUTTONS */
+.nav-right button{
+    padding:8px 14px;
+    margin:0 6px;
+    border:none;
+    border-radius:25px;
+    background:rgba(255,255,255,0.2);
+    color:white;
+    font-weight:bold;
+    cursor:pointer;
+    transition: all 0.3s;
+}
+.nav-right button:hover{
+    background:white;
+    color:#0B5ED7;
+    transform: translateY(-2px) scale(1.05);
+}
+
+/*marque */
+.marquee-announcement{
+    background:linear-gradient(90deg,#0B5ED7,#0DCAF0,#0B5ED7);
+    padding:10px 0;
+}
+
+/* banner*/
+#banner{
+    display:none;
+    background:linear-gradient(90deg,#FFE082,#FFD54F);
+    color:#333;
+    padding:12px 20px;
+    text-align:center;
+    font-weight:bold;
+}
+
+/* TOGGLE BUTTON WITH SMALL ICON */
+#toggleBanner{
+    padding:8px 14px;
+    border:none;
+    border-radius:20px;
+    background:#0B5ED7;
+    color:white;
+    cursor:pointer;
+    margin:10px auto;
+    display:block;
+    transition: all 0.3s;
+    font-size:16px;
+}
+#toggleBanner:hover{
+    background:crimson;
+    color:black;
+     box-shadow: 0 0 18px rgba(255,193,7,0.8);
+    transform: scale(1.05);
+}
+
+/* header*/
+header{
+    text-align:center;
+    padding:30px 10px;
+    color:white;
+    background:linear-gradient(90deg,#0B5ED7,#0DCAF0);
+}
+
+/* ===== SLIDER ===== */
+#slider{
+    position:relative;
+    width:100%;
+    height:330px;
+    overflow:hidden;
+}
+.slide{
+    width:100%;
+    height:330px;
+    object-fit:cover;
+    position:absolute;
+    left:0;
+    top:0;
+}
+
+/* ===== SECTIONS ===== */
+section{
+    padding:40px 20px;
+    text-align:center;
+}
+
+/* ABOUT */
+#about{
+    background:#F3F7FF;
+}
+
+/* ===== GALLERY ===== */
+/* ===== GALLERY (SIDE BY SIDE) ===== */
+.gallery{
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 15px;
+    padding: 10px 30px;
+    justify-items: center;
+}
+
+.item{
+    display:none; /* needed for fade effect */
+    padding:12px;
+    background:white;
+    border-radius:18px;
+    box-shadow:0 6px 14px rgba(0,0,0,0.12);
+    transition:0.3s;
+    width: 240px;
+    text-align:center;
+}
+
+.item:hover{
+    transform:translateY(-6px) scale(1.02);
+}
+
+.item img{
+    width:220px;
+    height:160px;
+    border-radius:12px;
+}
+
+
+/* FILTER BUTTONS */
+.buttons button{
+    padding:10px 18px;
+    margin:6px;
+    border:none;
+    border-radius:25px;
+    background:linear-gradient(90deg,#0B5ED7,#0DCAF0);
+    color:white;
+    font-weight:bold;
+    cursor:pointer;
+    transition: all 0.3s;
+}
+.buttons button:hover{
+    transform: translateY(-2px) scale(1.08);
+    box-shadow: 0 0 12px #FFC107;
+}
+.glow-icon{
+    font-size:22px;
+    animation: glow 1s infinite alternate;
+}
+
+/* SCROLL ANIMATION */
+.scroll-animate{
+    opacity:0;
+    transform:translateY(40px);
+    transition:all 0.7s ease-out;
+}
+.scroll-animate.show{
+    opacity:1;
+    transform:translateY(0);
+}
+/* ===== FLOATING CONTACT US ===== */
+#contact{
+    position: fixed;
+    right: 20px;
+    bottom: 20px;
+    width: 260px;
+    background: linear-gradient(135deg,#0B5ED7,#0DCAF0);
+    color: white;
+    padding: 15px;
+    border-radius: 18px;
+    box-shadow: 0 0 15px rgba(11,94,215,0.6);
+    text-align: left;
+    display: none; /* initially hidden */
+    z-index: 2000;
+}
+
+/* small title style */
+#contact h2{
+    margin-top: 0;
+    font-size: 20px;
+}
+
+/* floating toggle button */
+#contactFloatBtn{
+    position: fixed;
+    right: 20px;
+    bottom: 20px;
+    padding: 10px 14px;
+    border: none;
+    border-radius: 50%;
+    background:#0B5ED7;
+    color:white;
+    font-size: 18px;
+    cursor: pointer;
+    box-shadow: 0 0 10px rgba(11,94,215,0.7);
+    transition: 0.3s;
+}
+
+#contactFloatBtn:hover{
+    background:#FFC107;
+    color:black;
+    transform: scale(1.1);
+}
+
+/* FOOTER */
+footer{
+    text-align:center;
+    background:linear-gradient(90deg,#0B5ED7,#0DCAF0);
+    color:white;
+    padding:12px;
+}
+</style>
+</head>
+<body>
+
+<!-- NAVIGATION BAR -->
+<nav>
+<div class="nav-left">
+<button onclick="location.href='#home'">🌍 Explore Tourism</button>
+</div>
+
+<div class="nav-right">
+<button onclick="location.href='#home'">Home</button>
+<button onclick="location.href='#about'">About</button>
+<button onclick="location.href='#places'">Places</button>
+<button onclick="location.href='#contact'">Contact</button>
+</div>
+</nav>
+
+<!-- MARQUEE -->
+<div class="marquee-announcement">
+<marquee behavior="alternate" scrollamount="6">
+🌴 Discover Amazing Tourist Places • Book Your Trip Today • Make Memories 🌴
+</marquee>
+</div>
+
+<!-- TOGGLE ANNOUNCEMENT -->
+<div id="banner">
+<span class="glow-icon">📢</span>  
+New Travel Packages Available! Book Early & Save Big!
+</div>
+
+<div style="text-align:center;">
+<button id="toggleBanner">Travel Announcement</button>
+</div>
+
+<!-- HOME -->
+<header id="home">
+<h1>🌍 Explore The World</h1>
+<p>Travel • Discover • Experience • Enjoy</p>
+</header>
+
+<!-- SLIDER -->
+<div id="slider">
+<img class="slide" src="https://images.unsplash.com/photo-1501785888041-af3ef285b470?auto=format&fit=crop&w=1200&q=80">
+<img class="slide" src="https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?auto=format&fit=crop&w=1200&q=80" style="display:none;">
+<img class="slide" src="https://images.unsplash.com/photo-1506929562872-bb421503ef21?auto=format&fit=crop&w=1200&q=80" style="display:none;">
+</div>
+
+<!-- ABOUT -->
+<section id="about" class="scroll-animate">
+<h2>About Us</h2>
+<p>
+We help travelers explore the most beautiful destinations in the world.  
+From beaches to hills and temples, we bring you the best experiences.
+</p>
+</section>
+
+<!-- PLACES -->
+<section id="places" class="scroll-animate">
+<h2>Popular Tourist Places</h2>
+
+<div class="buttons">
+<button id="showAll">All Places</button>
+<button id="beachBtn">🏖️ Beaches</button>
+<button id="hillBtn">🏔️ Hills</button>
+<button id="templeBtn">🛕 Temples</button>
+</div>
+
+<div class="gallery">
+
+<!-- Beaches -->
+<div class="item beach"><img src="https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=400&q=80"><p>Goa Beach</p></div>
+<div class="item beach"><img src="https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?auto=format&fit=crop&w=400&q=80"><p>Maldives</p></div>
+<div class="item beach"><img src="https://images.unsplash.com/photo-1500375592092-40eb2168fd21?auto=format&fit=crop&w=400&q=80"><p>Bali Beach</p></div>
+
+<!-- Hills -->
+<div class="item hill"><img src="https://images.unsplash.com/photo-1501785888041-af3ef285b470?auto=format&fit=crop&w=400&q=80"><p>Manali</p></div>
+<div class="item hill"><img src="https://images.unsplash.com/photo-1506929562872-bb421503ef21?auto=format&fit=crop&w=400&q=80"><p>Ooty</p></div>
+<div class="item hill"><img src="/home/user/Desktop/HTML demo/37Untitled.jpeg"><p>Shimla</p></div>
+
+<!-- Temples -->
+<div class="item temple"><img src="/home/user/Desktop/HTML demo/34Untitled.jpeg"><p>Tirupati</p></div>
+<div class="item temple"><img src="/home/user/Desktop/HTML demo/35Untitled.jpeg"><p>Meenakshi Temple</p></div>
+<div class="item temple"><img src="/home/user/Desktop/HTML demo/36Untitled.jpeg"><p>Konark Temple</p></div>
+
+</div>
+</section>
+
+<!-- CONTACT -->
+<button id="contactFloatBtn">📞</button>
+<section id="contact" class="scroll-animate">
+<h2>Contact Us</h2>
+<p>Email: travel@explore.com</p>
+<p>Phone: +91 9391482659</p>
+</section>
+
+
+<footer>
+© 2026 Explore Tourism
+</footer>
+
+<script>
+$(document).ready(function(){
+$(".item").fadeIn(800); // show all images initially
+
+// AUTO SLIDER
+let index = 0;
+function autoSlide(){
+let slides = $(".slide");
+slides.eq(index).fadeOut(900);
+index = (index + 1) % slides.length;
+slides.eq(index).fadeIn(900);
+}
+setInterval(autoSlide, 3200);
+// FLOATING CONTACT TOGGLE (CORRECT VERSION)
+$("#contactFloatBtn").click(function(){
+    $("#contact").fadeIn(400);   // show contact box
+    $(this).fadeOut(200);        // hide phone icon
+});
+
+// When clicking anywhere inside contact box, close it
+$("#contact").click(function(){
+    $(this).fadeOut(400);        // hide contact box
+    $("#contactFloatBtn").fadeIn(300); // show phone icon again
+});
+
+
+// SHOW BANNER ON LOAD
+$("#banner").slideDown(600);
+
+// TOGGLE ANNOUNCEMENT
+$("#toggleBanner").click(function(){
+    $("#banner").slideToggle(400);
+});
+
+// SCROLL ANIMATION
+function checkScroll(){
+let windowBottom = $(window).scrollTop() + $(window).height();
+$(".scroll-animate").each(function(){
+if($(this).offset().top < windowBottom - 100){
+$(this).addClass("show");
+}
+});
+}
+$(window).on("scroll", checkScroll);
+checkScroll();
+
+/* ===== REAL FADE IN / FADE OUT GALLERY EFFECT ===== */
+
+// SHOW ALL WITH FADE
+$("#showAll").click(function(){
+$(".item").fadeOut(300, function(){
+$(".item").fadeIn(800);
+});
+});
+
+// BEACHES
+$("#beachBtn").click(function(){
+$(".item").fadeOut(300, function(){
+$(".beach").fadeIn(800);
+});
+});
+
+// HILLS
+$("#hillBtn").click(function(){
+$(".item").fadeOut(300, function(){
+$(".hill").fadeIn(800);
+});
+});
+
+// TEMPLES
+$("#templeBtn").click(function(){
+$(".item").fadeOut(300, function(){
+$(".temple").fadeIn(800);
+});
+});
+
+});
+</script>
+
+</body>
+</html>
+
